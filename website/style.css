@@ -610,10 +610,10 @@ p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; }
   color: #fff;
 }
 
-/* ========== FLAGSHIP SPOTLIGHT GRID ========== */
+/* ========== FLAGSHIP SPOTLIGHT GRID (3 COLUMNS) ========== */
 .spotlight-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
 
@@ -866,6 +866,15 @@ p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; }
 /* ========== RESPONSIVE ========== */
 @media (max-width: 1180px) {
   .hero-cta-group {
+    grid-template-columns: 1fr;
+  }
+  .spotlight-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .spotlight-grid {
     grid-template-columns: 1fr;
   }
 }
