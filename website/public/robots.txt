@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pdf.softcoverbooks.co.za/sitemap.xml
