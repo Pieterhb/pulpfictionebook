@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+/* Google Fonts loaded asynchronously via <link rel="preconnect"> in index.html for high performance */
 
 :root {
   --bg-color: #0e0a06;
@@ -585,6 +585,7 @@ p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; }
   line-height: 1;
 }
 
+.genre-info h3,
 .genre-info h4 {
   font-size: 1rem;
   color: var(--text-main);

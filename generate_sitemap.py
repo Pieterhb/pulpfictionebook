@@ -6,17 +6,8 @@ BASE_URL = "https://pdf.softcoverbooks.co.za"
 with open(r"c:\googleebook\website\index.html", "r", encoding="utf-8") as f:
     html = f.read()
 
-# Extract all data-target section IDs from the sidebar
-section_matches = re.findall(r'data-target="([^"]+)"', html)
-seen = set()
-sections = []
-for s in section_matches:
-    if s not in seen and s != "home":
-        seen.add(s)
-        sections.append(s)
-
 # Extract book cards
-card_blocks = re.findall(r'<article class="book-card">(.*?)</article>', html, re.DOTALL)
+card_blocks = re.findall(r'<article class="book-card".*?>(.*?)</article>', html, re.DOTALL)
 books = []
 
 for block in card_blocks:
@@ -30,7 +21,7 @@ for block in card_blocks:
     title = title_match.group(1) if title_match else ""
     author = author_match.group(1) if author_match else "Pieter Haasbroek"
     
-    if title:
+    if title and img_src:
         books.append({
             "img": img_src,
             "alt": alt_text,
@@ -38,7 +29,7 @@ for block in card_blocks:
             "author": author
         })
 
-print(f"Found {len(sections)} sections and {len(books)} books.")
+print(f"Found {len(books)} books with cover images.")
 
 now_date = datetime.now().strftime("%Y-%m-%d")
 
@@ -46,7 +37,7 @@ xml_lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
     '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
-    '  <!-- Main Homepage & Full Library -->',
+    '  <!-- Main Homepage & Full Vintage Library Collection -->',
     '  <url>',
     f'    <loc>{BASE_URL}/</loc>',
     f'    <lastmod>{now_date}</lastmod>',
@@ -58,8 +49,6 @@ def escape_xml(s):
     return re.sub(r'[<>&"\']', lambda m: {'<':'&lt;', '>':'&gt;', '&':'&amp;', '"':'&quot;', "'":'&apos;'}[m.group(0)], s)
 
 for b in books:
-    if not b["img"]:
-        continue
     img_src = b["img"]
     full_img_url = f"{BASE_URL}{img_src}" if img_src.startswith("/") else f"{BASE_URL}/{img_src}"
     clean_title = escape_xml(b["title"].strip())
@@ -73,16 +62,6 @@ for b in books:
     xml_lines.append('    </image:image>')
 
 xml_lines.append('  </url>')
-
-# Category sections
-for sec in sections:
-    xml_lines.append('  <url>')
-    xml_lines.append(f'    <loc>{BASE_URL}/#{sec}</loc>')
-    xml_lines.append(f'    <lastmod>{now_date}</lastmod>')
-    xml_lines.append('    <changefreq>monthly</changefreq>')
-    xml_lines.append('    <priority>0.8</priority>')
-    xml_lines.append('  </url>')
-
 xml_lines.append('</urlset>')
 
 sitemap_content = "\n".join(xml_lines)

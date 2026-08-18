@@ -42,8 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 2. Main Navigation function
-  function navigateTo(targetId) {
+  // 2. Main Navigation function with History API sync
+  function navigateTo(targetId, updateHash = true) {
     // If navigating to a non-home view, clear search
     if (targetId !== 'home' && searchInput) {
       searchInput.value = '';
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update active state on nav links
     document.querySelectorAll('.nav-list a').forEach(link => {
       link.classList.remove('active');
-      if (link.dataset.target === targetId) {
+      if (link.dataset.target === targetId || link.getAttribute('href') === `#${targetId}`) {
         link.classList.add('active');
       }
     });
@@ -76,21 +76,61 @@ document.addEventListener('DOMContentLoaded', () => {
       sidebar.classList.remove('open');
     }
 
+    // Synchronize URL hash with history API
+    if (updateHash) {
+      if (targetId === 'home') {
+        if (window.location.hash) {
+          history.pushState(null, '', window.location.pathname + window.location.search);
+        }
+      } else {
+        if (window.location.hash !== `#${targetId}`) {
+          history.pushState(null, '', `#${targetId}`);
+        }
+      }
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // 3. Global click listener for any element with data-target
+  // 3. Global click listener for any element with data-target or anchor hash
   document.addEventListener('click', (e) => {
-    const targetEl = e.target.closest('[data-target]');
+    const targetEl = e.target.closest('[data-target], a[href^="#"]');
     if (targetEl) {
-      e.preventDefault();
-      const target = targetEl.dataset.target;
-      if (target) navigateTo(target);
+      const target = targetEl.dataset.target || targetEl.getAttribute('href')?.replace(/^#/, '');
+      if (target) {
+        e.preventDefault();
+        navigateTo(target);
+      }
     }
   });
 
-  // 4. Live Search Handler
-  function handleSearch(e) {
+  // 4. Handle initial deep-link and browser back/forward buttons
+  function checkInitialHash() {
+    const hash = window.location.hash.replace(/^#/, '');
+    if (hash) {
+      const el = document.getElementById(hash);
+      if (el && el.classList.contains('view')) {
+        navigateTo(hash, false);
+        return;
+      }
+    }
+  }
+
+  window.addEventListener('popstate', () => {
+    const hash = window.location.hash.replace(/^#/, '') || 'home';
+    const el = document.getElementById(hash);
+    if (el && el.classList.contains('view')) {
+      navigateTo(hash, false);
+    } else {
+      navigateTo('home', false);
+    }
+  });
+
+  // Check initial hash on load
+  checkInitialHash();
+
+  // 5. Live Search Handler
+  function handleSearch() {
     const rawQuery = searchInput.value;
     const query = rawQuery.trim().toLowerCase();
 
@@ -107,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
       views.forEach(v => v.classList.remove('active'));
       homeView.classList.add('active');
       document.querySelectorAll('.nav-list a').forEach(l => l.classList.remove('active'));
-      const homeLink = document.querySelector('.nav-list a[data-target="home"]');
+      const homeLink = document.querySelector('.nav-list a[data-target="home"], .nav-list a[href="#home"]');
       if (homeLink) homeLink.classList.add('active');
     }
 
@@ -153,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. Mobile menu toggle
+  // 6. Mobile menu toggle
   if (mobileMenuBtn && sidebar) {
     mobileMenuBtn.addEventListener('click', () => {
       sidebar.classList.toggle('open');
@@ -162,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Close sidebar when clicking outside on mobile
     document.addEventListener('click', (e) => {
       if (window.innerWidth <= 1024) {
-        if (!e.target.closest('#sidebar') && !e.target.closest('#mobile-menu-btn') && !e.target.closest('[data-target]')) {
+        if (!e.target.closest('#sidebar') && !e.target.closest('#mobile-menu-btn') && !e.target.closest('[data-target]') && !e.target.closest('a[href^="#"]')) {
           sidebar.classList.remove('open');
         }
       }
