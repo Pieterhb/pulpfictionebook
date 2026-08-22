@@ -89,7 +89,12 @@ item_list_schema = {
             "@type": "ListItem",
             "position": idx + 1,
             "name": s["name"],
-            "url": f"https://pdf.softcoverbooks.co.za/#{s['id']}"
+            "item": {
+                "@type": "BookSeries",
+                "name": s["name"],
+                "inLanguage": s["lang"],
+                "@id": f"https://pdf.softcoverbooks.co.za/#{s['id']}"
+            }
         }
         for idx, s in enumerate(series_list)
     ]

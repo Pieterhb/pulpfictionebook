@@ -55,10 +55,13 @@ assert "ItemList" in types, "Missing ItemList Schema"
 ws = next(s for s in schemas if s.get("@type") == "WebSite")
 assert "potentialAction" in ws and ws["potentialAction"]["@type"] == "SearchAction", "Missing SearchAction"
 
-# Verify ItemList has 40 series
+# Verify ItemList has 40 series and uses semantic @id (no page-level hash fragment URLs)
 il = next(s for s in schemas if s.get("@type") == "ItemList")
 assert len(il["itemListElement"]) == 40, f"Expected 40 series in ItemList, found {len(il['itemListElement'])}"
-print("✅ 4. Structured Data (JSON-LD WebSite, Person, ItemList x40): PASSED")
+for el in il["itemListElement"]:
+    assert "url" not in el, f"Found URL property on ListItem {el} which causes Googlebot fragment discovery errors"
+    assert "item" in el and "@id" in el["item"], f"Missing semantic item @id in {el}"
+print("✅ 4. Structured Data (JSON-LD WebSite, Person, ItemList x40 with clean semantic @id): PASSED")
 
 # 5. Check Dead Anchors (href="#")
 dead_links = re.findall(r'<a\s+[^>]*href="#"[^>]*>', html)
