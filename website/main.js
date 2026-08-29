@@ -11,6 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchResultsCount = document.getElementById('search-results-count');
   const homeMainContent = document.getElementById('home-main-content');
 
+  // 0. Dynamic Banner Height Calculation
+  function updateBannerHeight() {
+    const banner = document.querySelector('.top-announcement-bar');
+    if (banner) {
+      document.documentElement.style.setProperty('--banner-height', `${banner.offsetHeight}px`);
+    }
+  }
+  updateBannerHeight();
+  window.addEventListener('resize', updateBannerHeight);
+
   // 1. Index all books across all categories for instant lightning-fast search
   const booksIndex = [];
   const bookCardElements = document.querySelectorAll('.view:not(#home) .book-card');
