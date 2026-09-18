@@ -81,6 +81,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    // Update active state on tag pills / author buttons
+    document.querySelectorAll('.view').forEach(view => {
+      const viewId = view.id;
+      const pills = view.querySelectorAll('.tags-row .tag-pill');
+      if (pills.length === 0) return;
+      
+      let hasExactMatch = false;
+      pills.forEach(pill => {
+        const pillTarget = pill.dataset.target || pill.getAttribute('href')?.replace(/^#/, '');
+        if (pillTarget === viewId) {
+          pill.classList.add('tag-pill-genre', 'active');
+          hasExactMatch = true;
+        } else {
+          pill.classList.remove('tag-pill-genre', 'active');
+        }
+      });
+
+      if (!hasExactMatch && pills.length > 0) {
+        pills[0].classList.add('tag-pill-genre', 'active');
+      }
+    });
+
     // Close sidebar on mobile
     if (window.innerWidth <= 1024 && sidebar) {
       sidebar.classList.remove('open');

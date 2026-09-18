@@ -1072,12 +1072,14 @@ p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; }
   box-shadow: 0 4px 12px rgba(232, 160, 32, 0.3);
 }
 
+.tag-pill.active,
 .tag-pill-genre {
   background: rgba(212, 43, 43, 0.18);
   border-color: rgba(212, 43, 43, 0.45);
   color: #ff9999;
 }
 
+.tag-pill.active:hover,
 .tag-pill-genre:hover {
   background: var(--accent-red);
   color: #fff;
