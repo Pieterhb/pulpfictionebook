@@ -63,10 +63,12 @@ for el in il["itemListElement"]:
     assert "item" in el and "@id" in el["item"], f"Missing semantic item @id in {el}"
 print("✅ 4. Structured Data (JSON-LD WebSite, Person, ItemList x40 with clean semantic @id): PASSED")
 
-# 5. Check Dead Anchors (href="#")
+# 5. Check Dead Anchors (href="#") & Sitemap Anchor Elimination
 dead_links = re.findall(r'<a\s+[^>]*href="#"[^>]*>', html)
 assert len(dead_links) == 0, f"Found {len(dead_links)} dead href='#' links"
-print("✅ 5. Internal Link Crawlability (Zero dead href='#' links): PASSED")
+sitemap_links = re.findall(r'<a\s+[^>]*href=["\'][^"\']*sitemap\.xml["\'][^>]*>', html, re.IGNORECASE)
+assert len(sitemap_links) == 0, f"Found {len(sitemap_links)} raw sitemap.xml anchor links in HTML (causes GSC Crawled - currently not indexed)"
+print("✅ 5. Internal Link Crawlability (Zero dead href='#' links & Zero sitemap.xml anchors): PASSED")
 
 # 6. Check Heading Hierarchy in Genre Cards (no h4 skip)
 genre_h4 = re.findall(r'<div class="genre-info">\s*<h4>', html)
