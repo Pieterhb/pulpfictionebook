@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   bookCardElements.forEach(card => {
     const parentSection = card.closest('.view');
-    const seriesTitle = parentSection ? (parentSection.querySelector('.section-hero h2')?.textContent || '') : '';
+    const seriesTitle = parentSection ? (parentSection.querySelector('.section-title-wrap h2, .breadcrumbs .current-series, .section-hero h2, h2')?.textContent || '') : '';
     const sectionId = parentSection ? parentSection.id : '';
     const title = card.querySelector('h3')?.textContent || '';
     const author = card.querySelector('.author')?.textContent || '';
