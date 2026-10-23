@@ -1,0 +1,2 @@
+# Ensure clean 301 permanent redirects to fully-qualified canonical URL
+/index.html https://pdf.softcoverbooks.co.za/ 301

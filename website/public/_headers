@@ -1,0 +1,24 @@
+# Custom HTTP Headers for Cloudflare Pages
+
+# 1. Canonical Homepage
+/
+  Link: <https://pdf.softcoverbooks.co.za/>; rel="canonical"
+  X-Robots-Tag: index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# 2. Exclude Google Site Verification File from Indexing (Prevents GSC Crawled - currently not indexed error)
+/google528afe2f0ae2ed34*
+  X-Robots-Tag: noindex, nofollow
+  X-Content-Type-Options: nosniff
+
+# 3. XML Sitemap
+/sitemap.xml
+  Content-Type: application/xml; charset=utf-8
+  X-Robots-Tag: noindex
+  X-Content-Type-Options: nosniff
+
+# 4. Robots.txt
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
+  X-Content-Type-Options: nosniff

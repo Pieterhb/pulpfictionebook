@@ -526,6 +526,14 @@
 </script>
 
 <link href="/style.css" rel="stylesheet"/>
+
+<!-- Crawler & Non-JS DOM Rendering Fallback (Guarantees Googlebot Full DOM Accessibility) -->
+<noscript>
+  <style>
+    .view { display: block !important; }
+  </style>
+</noscript>
+<link rel="preload" as="image" href="https://pdf.softcoverbooks.co.za/images/covers/cover_14.jpg"/>
 </head>
 <body>
 <!-- Top Announcement Banner -->

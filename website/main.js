@@ -225,6 +225,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 5b. Support URL query parameter ?q= for Schema.org SearchAction & crawler testing
+  const urlParams = new URLSearchParams(window.location.search);
+  const qParam = urlParams.get('q');
+  if (qParam && searchInput) {
+    searchInput.value = qParam;
+    handleSearch();
+  }
+
   // 6. Mobile menu toggle
   if (mobileMenuBtn && sidebar) {
     mobileMenuBtn.addEventListener('click', () => {
