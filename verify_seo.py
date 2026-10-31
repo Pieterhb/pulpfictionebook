@@ -32,8 +32,8 @@ assert '@import url' not in css, "Render-blocking @import found in style.css"
 print("✅ 2. CSS Render-Blocking @import Elimination: PASSED")
 
 # 3. Check Meta Tags (Robots, Canonical, OG, Twitter)
-assert '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/>' in html, "Missing robots directive"
-assert '<link rel="canonical" href="https://pdf.softcoverbooks.co.za/"/>' in html, "Missing canonical URL"
+assert '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />' in html, "Missing robots directive"
+assert '<link rel="canonical" href="https://pdf.softcoverbooks.co.za/" />' in html, "Missing canonical URL"
 assert '<meta property="og:image" content="https://pdf.softcoverbooks.co.za/images/covers/cover_14.jpg"/>' in html, "Missing og:image"
 assert '<meta property="og:image:width" content="1200"/>' in html, "Missing og:image:width"
 assert '<meta property="og:image:height" content="630"/>' in html, "Missing og:image:height"
@@ -43,13 +43,20 @@ print("✅ 3. Robots, Canonical, OpenGraph & Twitter Meta: PASSED")
 
 # 4. Check JSON-LD Structured Data
 json_ld_matches = re.findall(r'<script type="application/ld\+json">(.*?)</script>', html, re.DOTALL)
-assert len(json_ld_matches) == 3, f"Expected 3 JSON-LD blocks, found {len(json_ld_matches)}"
+assert len(json_ld_matches) == 4, f"Expected 4 JSON-LD blocks, found {len(json_ld_matches)}"
 
 schemas = [json.loads(j.strip()) for j in json_ld_matches]
 types = [s.get("@type") for s in schemas]
+assert "CollectionPage" in types, "Missing CollectionPage Schema"
 assert "WebSite" in types, "Missing WebSite Schema"
 assert "Person" in types, "Missing Person Schema"
 assert "ItemList" in types, "Missing ItemList Schema"
+
+# Verify CollectionPage Schema
+cp = next(s for s in schemas if s.get("@type") == "CollectionPage")
+assert cp["name"] == "Softcover Books PDF Archive", "CollectionPage name mismatch"
+assert cp["url"] == "https://pdf.softcoverbooks.co.za/", "CollectionPage url mismatch"
+assert cp["description"] == "Digital archive and catalog of vintage South African pulp fiction and adventure book series.", "CollectionPage description mismatch"
 
 # Verify SearchAction in WebSite Schema
 ws = next(s for s in schemas if s.get("@type") == "WebSite")
