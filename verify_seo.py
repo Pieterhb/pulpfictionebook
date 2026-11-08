@@ -134,6 +134,15 @@ assert "popstate" in js, "Missing popstate listener in main.js"
 assert "checkInitialHash" in js, "Missing initial hash deep-linking in main.js"
 print("✅ 11. Client-Side Router Deep-Linking & History API: PASSED")
 
+# 12. Check Bing IndexNow Verification File
+INDEXNOW_KEY = "fee097ac8b8c4f9ab8b43be1b0eda384"
+INDEXNOW_FILE = r"c:\googleebook\website\public\fee097ac8b8c4f9ab8b43be1b0eda384.txt"
+assert os.path.exists(INDEXNOW_FILE), f"Missing IndexNow verification file: {INDEXNOW_FILE}"
+with open(INDEXNOW_FILE, "r", encoding="utf-8") as f:
+    key_content = f.read().strip()
+assert key_content == INDEXNOW_KEY, f"IndexNow key mismatch: {key_content} != {INDEXNOW_KEY}"
+print("✅ 12. Bing IndexNow Verification File & Key Integrity: PASSED")
+
 print("="*60)
-print("ALL 11 TECHNICAL SEO AUDIT CHECKS PASSED WITH 100% SUCCESS!")
+print("ALL 12 TECHNICAL SEO AUDIT CHECKS PASSED WITH 100% SUCCESS!")
 print("="*60)

@@ -22,3 +22,9 @@
 /robots.txt
   Content-Type: text/plain; charset=utf-8
   X-Content-Type-Options: nosniff
+
+# 5. Bing IndexNow Verification File
+/fee097ac8b8c4f9ab8b43be1b0eda384.txt
+  Content-Type: text/plain; charset=utf-8
+  X-Robots-Tag: noindex
+  X-Content-Type-Options: nosniff
