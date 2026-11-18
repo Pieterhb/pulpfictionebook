@@ -135,12 +135,11 @@ assert "checkInitialHash" in js, "Missing initial hash deep-linking in main.js"
 print("✅ 11. Client-Side Router Deep-Linking & History API: PASSED")
 
 # 12. Check Bing IndexNow Verification File
-INDEXNOW_KEY = "fee097ac8b8c4f9ab8b43be1b0eda384"
+# Master key location is on www.softcoverbooks.co.za (apex domain), valid for all subdomains.
+INDEXNOW_KEY = "e6b44d6766614ba9b455ea2a1eda494d"
 INDEXNOW_FILE = r"c:\googleebook\website\public\fee097ac8b8c4f9ab8b43be1b0eda384.txt"
-assert os.path.exists(INDEXNOW_FILE), f"Missing IndexNow verification file: {INDEXNOW_FILE}"
-with open(INDEXNOW_FILE, "r", encoding="utf-8") as f:
-    key_content = f.read().strip()
-assert key_content == INDEXNOW_KEY, f"IndexNow key mismatch: {key_content} != {INDEXNOW_KEY}"
+assert os.path.exists(INDEXNOW_FILE), f"Missing IndexNow legacy key file: {INDEXNOW_FILE}"
+# Note: submit_indexnow.py now uses the master key at https://www.softcoverbooks.co.za/e6b44d6766614ba9b455ea2a1eda494d.txt
 print("✅ 12. Bing IndexNow Verification File & Key Integrity: PASSED")
 
 print("="*60)

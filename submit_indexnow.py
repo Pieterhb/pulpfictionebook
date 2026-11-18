@@ -2,11 +2,13 @@
 """
 Bing IndexNow Submission Script
 Site: https://pdf.softcoverbooks.co.za/
-API Key: fee097ac8b8c4f9ab8b43be1b0eda384
-Key File: https://pdf.softcoverbooks.co.za/fee097ac8b8c4f9ab8b43be1b0eda384.txt
+Master Key: e6b44d6766614ba9b455ea2a1eda494d
+Key File: https://pdf.softcoverbooks.co.za/e6b44d6766614ba9b455ea2a1eda494d.txt
 
 Standalone backend/admin utility to submit updated URLs directly to IndexNow
 (Bing, Yandex, Naver, Seznam, and other participating search engines).
+Master key is verified in Bing Webmaster Tools for www.softcoverbooks.co.za
+and is accepted for all softcoverbooks.co.za subdomains per IndexNow protocol.
 """
 
 import sys
@@ -18,8 +20,8 @@ import urllib.error
 import xml.etree.ElementTree as ET
 
 HOST = "pdf.softcoverbooks.co.za"
-API_KEY = "fee097ac8b8c4f9ab8b43be1b0eda384"
-KEY_LOCATION = f"https://{HOST}/{API_KEY}.txt"
+API_KEY = "e6b44d6766614ba9b455ea2a1eda494d"
+KEY_LOCATION = "https://pdf.softcoverbooks.co.za/e6b44d6766614ba9b455ea2a1eda494d.txt"
 DEFAULT_ENDPOINT = "https://api.indexnow.org/IndexNow"
 DEFAULT_URL = f"https://{HOST}/"
 
