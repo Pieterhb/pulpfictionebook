@@ -1220,6 +1220,10 @@ p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; }
 }
 
 @media (max-width: 1024px) {
+  .app-layout {
+    display: block;
+  }
+
   .sidebar {
     top: 0;
     height: 100vh;
@@ -1235,6 +1239,8 @@ p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; }
   .main-content {
     margin-left: 0;
     padding: 2rem 5%;
+    width: 100%;
+    min-width: 0;
   }
 
   .mobile-header {
@@ -1262,48 +1268,302 @@ p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; }
 }
 
 @media (max-width: 640px) {
-  .product-grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 1rem;
-  }
-  
-  .stats-banner {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    padding: 1.25rem 0.75rem;
+  /* 1. Global text wrapping & hyphenation safety for cellphones */
+  body, h1, h2, h3, h4, p, a, span, button, li {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
 
-  .stat-card:nth-child(2)::after {
-    display: none;
+  /* 2. Mobile Header - fit logo and menu cleanly without overflow */
+  .mobile-header {
+    padding: 0.75rem 4%;
+    gap: 0.5rem;
   }
 
-  .stat-number {
-    font-size: 2rem;
+  .mobile-header .logo {
+    font-size: clamp(1.05rem, 4.2vw, 1.25rem);
+    line-height: 1.2;
+    flex: 1;
+    min-width: 0;
   }
 
-  .stat-label {
+  .mobile-menu-btn {
+    flex-shrink: 0;
+  }
+
+  /* 3. Main layout padding */
+  .main-content {
+    padding: 1rem 3.5%;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  /* 4. Hero section & CTA buttons */
+  .hero {
+    padding: 1rem 0 1.75rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-badge {
     font-size: 0.72rem;
+    padding: 0.35rem 0.85rem;
+    margin-bottom: 1rem;
+    white-space: normal;
+    text-align: center;
   }
 
-  .how-it-works-grid {
-    grid-template-columns: 1fr;
+  .hero h1 {
+    font-size: clamp(1.6rem, 6vw, 1.95rem);
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.4rem;
+  }
+
+  .search-icon {
+    margin-left: 0.4rem;
+    margin-right: 0.4rem;
+    width: 18px;
+    height: 18px;
+  }
+
+  #live-search-input {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.25rem;
+    min-width: 0;
+  }
+
+  #live-search-input::placeholder {
+    font-size: 0.85rem;
   }
 
   .hero-cta-group {
     grid-template-columns: 1fr;
+    gap: 0.85rem;
   }
 
-  .spotlight-grid {
+  .cta-store-btn {
+    padding: 0.8rem 1rem;
+  }
+
+  .cta-btn-text strong {
+    font-size: 0.9rem;
+  }
+
+  .cta-btn-text small {
+    font-size: 0.75rem;
+  }
+
+  /* 5. Product Grid & Book Cards */
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.75rem;
+    padding-bottom: 3.5rem;
+    width: 100%;
+  }
+
+  .book-card {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .book-content {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .book-content h3 {
+    font-size: 0.92rem;
+    line-height: 1.25;
+    margin-bottom: 0.35rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .book-content .author {
+    font-size: 0.75rem;
+    margin-bottom: 0.65rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .book-content .btn {
+    padding: 0.45rem 0.5rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+  
+  /* 6. Stats banner - 2 columns fitted cleanly on mobile */
+  .stats-banner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding: 1rem 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .stat-card:not(:last-child)::after {
+    display: none;
+  }
+
+  .stat-number {
+    font-size: 1.85rem;
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* 7. How it works guide & genre cards */
+  .how-it-works-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .step-card {
+    padding: 1.25rem 1rem;
   }
 
   .genre-cards-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .genre-card {
+    padding: 1rem;
+  }
+
+  /* 8. Spotlight cards & actions */
+  .spotlight-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .spotlight-card {
+    padding: 1.25rem 1rem;
+  }
+
+  .spotlight-card h3 {
+    font-size: 1.15rem;
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .spotlight-card p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin-bottom: 1rem;
+  }
+
+  .spotlight-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .btn-spotlight,
+  .btn-spotlight-alt {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    font-size: 0.85rem;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  /* 9. Hub Hero section on series views */
+  .hub-hero {
+    padding: 1.25rem 0.9rem;
+    border-radius: 14px;
+    margin-bottom: 1.75rem;
+  }
+
+  .hub-hero h2 {
+    font-size: clamp(1.35rem, 5vw, 1.75rem);
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .hub-tagline {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .tags-row {
+    gap: 0.45rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .tag-pill {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.75rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .hub-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  /* 10. Section Title Wrap */
+  .section-title-wrap {
+    margin-bottom: 1.25rem;
+  }
+
+  .section-title-wrap h2 {
+    font-size: clamp(1.2rem, 4.5vw, 1.5rem);
+    line-height: 1.25;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .section-title-wrap p {
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  /* 11. Breadcrumbs */
+  .breadcrumbs {
+    padding: 0.5rem 0.75rem;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    line-height: 1.35;
+    margin-bottom: 1.25rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* 12. Footer */
+  .site-footer {
+    padding: 2.25rem 0 1.5rem;
+    font-size: 0.88rem;
   }
 
   .footer-grid {
     grid-template-columns: 1fr;
-    gap: 1.75rem;
+    gap: 1.5rem;
+    margin-bottom: 1.75rem;
   }
 
   .footer-grid .footer-col:first-child,
@@ -1311,12 +1571,53 @@ p { font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; }
     grid-column: span 1;
   }
 
-  .main-content {
-    padding: 1.25rem 4%;
+  .footer-col h4 {
+    font-size: 1.05rem;
+    margin-bottom: 0.75rem;
   }
 
-  .hero h1 {
-    font-size: 1.85rem;
+  .footer-col p,
+  .footer-links a,
+  .footer-about p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .footer-about a[href^="mailto:"],
+  .footer-about a,
+  .footer-bottom p {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .footer-bottom {
+    padding-top: 1.25rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  /* 13. Mobile Sidebar Drawer */
+  .sidebar {
+    width: 85vw;
+    max-width: 320px;
+  }
+
+  .nav-list li a {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    gap: 0.5rem;
+  }
+
+  .nav-list li a.nav-home-link,
+  .nav-list li a[data-target="home"] {
+    font-size: 1.15rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .nav-list li a span.count {
+    flex-shrink: 0;
   }
 }
 
